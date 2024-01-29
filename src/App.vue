@@ -2,15 +2,18 @@
   import Header from './components/Header.vue';
   import Balance from './components/Balance.vue';
   import IncomeExpenses from './components/IncomeExpenses.vue';
+  import AddTransaction from './components/AddTransaction.vue';
   import {computed, ref} from 'vue'
 
-  const transactions = ref([
-    {id: 1, text: 'Paycheck', amount: 777.77},
-    {id: 2, text: 'Food', amount: -77.77},
-    {id: 3, text: 'Bills', amount: -577.77},
-    {id: 4, text: 'Video game', amount: -7.77},
-    {id: 5, text: 'tax return', amount: 3000},
-  ])
+  const transactions = ref([])
+
+  // const transactions = ref([
+  //   {id: 1, text: 'Paycheck', amount: 777.77},
+  //   {id: 2, text: 'Food', amount: -77.77},
+  //   {id: 3, text: 'Bills', amount: -577.77},
+  //   {id: 4, text: 'Video game', amount: -7.77},
+  //   {id: 5, text: 'tax return', amount: 3000},
+  // ])
 
   //get total
   const total = computed(() => {
@@ -37,7 +40,14 @@
     }, 0)
   })
 
-  
+//handle transactions submitted
+const handleTransactionSubmitted = (transactionData) => {
+  transactions.value.push({
+    text: transactionData.text,
+    amount: transactionData.amount,
+  })
+}
+
 </script>
 
 <template>
@@ -45,5 +55,7 @@
   <div class="container">
     <Balance :total="total"></Balance>
     <IncomeExpenses :income="income" :expense="expense"></IncomeExpenses>
+    <AddTransaction @transactionSubmitted="handleTransactionSubmitted"></AddTransaction>
+    <!-- {{ transactions }} -->
   </div>
 </template>
